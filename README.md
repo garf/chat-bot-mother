@@ -1,8 +1,8 @@
-# Telegram Chat Bot
+# Chat Bot Mother
 
-Telegram chat bot. 
-
-Thin client. Requires centralized service "Mother" to receive info and generate reply. 
+ Server for think chatbot clients.
+ 
+ Receives requests, process them and return unified response.
 
 ## Build
 - Install [http://maven.apache.org/install.html](Maven)
