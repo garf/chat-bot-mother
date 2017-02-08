@@ -1,33 +1,50 @@
 import libs.helpers.Config;
+import libs.http.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.fusesource.jansi.AnsiConsole;
+import server.ServerWorker;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import static org.fusesource.jansi.Ansi.*;
 import static org.fusesource.jansi.Ansi.Color.*;
 
 public class App {
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws InterruptedException {
         AnsiConsole.systemInstall();
 
         Config config = new Config("./config.properties");
 
         String key = "listen";
-        String telegramToken = config.get(key);
+        int port = Integer.parseInt(config.get(key));
 
-//        Boolean isTokenSet = telegramToken != null && !telegramToken.equals("SetYourToken");
-//
-//        if (!isTokenSet) {
-//            System.out.println("Token: " + ansi().bg(RED).fg(BLACK).a("NOT SET").reset());
-//            System.out.println("Please set your telegram token");
-//            return;
-//        }
+        System.out.println(ansi().bold().fg(GREEN).a("Server started on port " + port).reset());
 
-//        System.out.println("Token: " + ansi().fg(GREEN).bold().a(telegramToken).reset());
-//
-//        TelegramBot bot = TelegramBotAdapter.build(telegramToken);
+        ServerSocket server = null;
+        try {
+            server = new ServerSocket(port);
+        } catch (IOException e) {
+            System.out.println("Could not listen on port" + port);
+            System.exit(-1);
+        }
 
-        final Logger logger = LoggerFactory.getLogger(App.class);
+        while (true) {
+            try {
+                Socket accept = server.accept();
 
-        System.out.println(ansi().bg(GREEN).fg(BLACK).a("Bot started").reset());
+                ServerWorker worker = new ServerWorker(accept);
+                Thread t = new Thread(worker);
+                t.run();
+            } catch (IOException e) {
+                System.out.println("Accept failed: " + port);
+                System.exit(-1);
+            }
+        }
     }
 }

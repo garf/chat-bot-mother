@@ -1,7 +1,7 @@
 # Chat Bot Mother
 
  Server for think chatbot clients.
- 
+
  Receives requests, process them and return unified response.
 
 ## Build
