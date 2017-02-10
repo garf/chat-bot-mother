@@ -40,7 +40,7 @@ public class App {
 
                 ServerWorker worker = new ServerWorker(accept);
                 Thread t = new Thread(worker);
-                t.run();
+                t.start();
             } catch (IOException e) {
                 System.out.println("Accept failed: " + port);
                 System.exit(-1);

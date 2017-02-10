@@ -1,11 +1,8 @@
 package server;
 
-import libs.http.Request;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import dto.socket.ClientMessage;
+import dto.socket.MotherMessage;
+import java.io.*;
 import java.net.Socket;
 
 public class ServerWorker implements Runnable {
@@ -18,23 +15,33 @@ public class ServerWorker implements Runnable {
 
     @Override
     public void run() {
-        String content;
-        BufferedReader in;
-        PrintWriter out;
+        ClientMessage clientMessage;
+        ObjectInputStream in;
+        ObjectOutputStream out;
+        MotherMessage motherMessage;
 
         while (true) {
             try {
-                in = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
-                out = new PrintWriter(this.client.getOutputStream(), true);
+                out = new ObjectOutputStream(this.client.getOutputStream());
+                in = new ObjectInputStream(this.client.getInputStream());
+                clientMessage = (ClientMessage) in.readObject();
 
-                content = in.readLine();
-                String reply = String.format("Im mother. You sent: '%s'", content);
-                out.println(reply);
-                System.out.println(String.format("Received from client: '%s'", content));
-                System.out.println(String.format("Replied: '%s'", reply));
+                String[] keyboard = {"Get me a Puppy", "Set me a puppy"};
+
+                motherMessage = new MotherMessage()
+                        .setText(String.format("Im mother. You sent: '%s'", clientMessage.getText()))
+                        .setKeyboard(keyboard);
+
+                out.writeObject(motherMessage);
+
+                System.out.println(String.format("Received from client: '%s'", clientMessage.getText()));
+                System.out.println(String.format("Replied: '%s'", motherMessage.getText()));
+
             } catch (IOException e) {
                 System.out.println(String.format("Read failed: %s", e.getMessage()));
                 System.exit(-1);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
         }
     }
