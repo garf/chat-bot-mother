@@ -3,7 +3,7 @@ package entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name="user_mapping", uniqueConstraints = {
@@ -33,11 +33,12 @@ public class UserMapping {
     private int accountId;
 
     @Column(name="created_at")
-    private LocalDateTime createdAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
 
     @Column(name="updated_at")
-    @Temporal(TemporalType.TIME)
-    private LocalDateTime updatedAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
 
     @Column(name="status")
     @Enumerated(EnumType.STRING)
@@ -79,20 +80,20 @@ public class UserMapping {
         return this;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public UserMapping setCreatedAt(LocalDateTime createdAt) {
+    public UserMapping setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
         return this;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public UserMapping setUpdatedAt(LocalDateTime updatedAt) {
+    public UserMapping setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
         return this;
     }
