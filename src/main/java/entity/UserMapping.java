@@ -10,13 +10,13 @@ import java.util.Date;
         @UniqueConstraint(columnNames={"chatUserId", "messenger", "account_id"})
 })
 public class UserMapping {
-    final String STATUS_ACTIVE = "active";
-    final String STATUS_DISABLED = "disabled";
+    public static final String STATUS_ACTIVE = "active";
+    public static final String STATUS_DISABLED = "disabled";
 
-    final String MESSENGER_TELEGRAM = "telegram";
-    final String MESSENGER_SLACK = "slack";
-    final String MESSENGER_FACEBOOK = "facebook";
-    final String MESSENGER_SKYPE = "skype";
+    public static final String MESSENGER_TELEGRAM = "telegram";
+    public static final String MESSENGER_SLACK = "slack";
+    public static final String MESSENGER_FACEBOOK = "facebook";
+    public static final String MESSENGER_SKYPE = "skype";
 
     @Id
     @GeneratedValue(generator="increment")
