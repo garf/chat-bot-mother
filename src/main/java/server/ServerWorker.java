@@ -21,7 +21,6 @@ public class ServerWorker implements Runnable {
         ClientMessage clientMessage;
         ObjectInputStream in;
         ObjectOutputStream out;
-        MotherMessage motherMessage;
 
         while (true) {
             try {
@@ -31,10 +30,7 @@ public class ServerWorker implements Runnable {
                 out.writeObject(new ReplyGuesser().process(clientMessage));
             } catch (IOException e) {
                 System.out.println(String.format("Read failed: %s", e.getMessage()));
-                System.exit(-1);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
+            } catch (ClassNotFoundException | ParseException e) {
                 e.printStackTrace();
             }
         }
