@@ -12,3 +12,9 @@
 ## Run
 - Edit file `config.properties`
 - Run `java -jar <filename>-jar-with-dependencies.jar`
+
+## Clients
+
+- https://github.com/garf/telegram-bot-thin
+- https://github.com/garf/slack-bot-thin
+- https://github.com/garf/facebook-bot-thin
